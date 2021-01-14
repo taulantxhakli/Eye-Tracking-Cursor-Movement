@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 		}
 
 		// Display video
-		cv::imshow("video", frame);
+		cv::imshow("Webcam Feed", frame);
 	}
 
 	return 0;

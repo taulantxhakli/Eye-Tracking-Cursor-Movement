@@ -12,12 +12,7 @@ cv::CascadeClassifier face_cascade;
 cv::CascadeClassifier eye_cascade;
 
 /**
- * Function to detect human face and the eyes from an image.
- *
- * @param  im    The source image
- * @param  tpl   Will be filled with the eye template, if detection success.
- * @param  rect  Will be filled with the bounding box of the eye
- * @return zero=failed, nonzero=success
+ * Detect user's face and the eyes from an image.
  */
 int detectEye(cv::Mat& im, cv::Mat& tpl, cv::Rect& rect)
 {
@@ -40,11 +35,7 @@ int detectEye(cv::Mat& im, cv::Mat& tpl, cv::Rect& rect)
 }
 
 /**
- * Perform template matching to search the user's eye in the given image.
- *
- * @param   im    The source image
- * @param   tpl   The eye template
- * @param   rect  The eye bounding box, will be updated with the new location of the eye
+ * Search the user's eye.
  */
 void trackEye(cv::Mat& im, cv::Mat& tpl, cv::Rect& rect)
 {
@@ -71,16 +62,13 @@ void trackEye(cv::Mat& im, cv::Mat& tpl, cv::Rect& rect)
 
 int main(int argc, char** argv)
 {
-	// Load the cascade classifiers
-	// Make sure you point the XML files to the right path, or 
-	// just copy the files from [OPENCV_DIR]/data/haarcascades directory
 	face_cascade.load("haarcascade_frontalface_alt2.xml");
 	eye_cascade.load("haarcascade_eye.xml");
 
 	// Open webcam
 	cv::VideoCapture cap(0);
 
-	// Check if everything is ok
+	// Run diagnostics
 	if (face_cascade.empty() || eye_cascade.empty() || !cap.isOpened())
 		return 1;
 
@@ -97,23 +85,20 @@ int main(int argc, char** argv)
 		if (frame.empty())
 			break;
 
-		// Flip the frame horizontally, Windows users might need this
 		cv::flip(frame, frame, 1);
 
-		// Convert to grayscale and 
-		// adjust the image contrast using histogram equalization
+		// Grayscale
 		cv::Mat gray;
 		cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
 		if (eye_bb.width == 0 && eye_bb.height == 0)
 		{
-			// Detection stage
-			// Try to detect the face and the eye of the user
+			// Detect the face and the eye of the user
 			detectEye(gray, eye_tpl, eye_bb);
 		}
 		else
 		{
-			// Tracking stage with template matching
+			// Track with template matching
 			trackEye(gray, eye_tpl, eye_bb);
 
 			// Draw bounding rectangle for the eye

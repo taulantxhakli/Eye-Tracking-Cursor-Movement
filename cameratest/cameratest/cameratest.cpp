@@ -58,7 +58,7 @@ void trackEye(cv::Mat& im, cv::Mat& tpl, cv::Rect& rect)
         rect.x = rect.y = rect.width = rect.height = 0;
 }
 
-/**
+
 void MouseMove(int dx, int dy)
 {
     INPUT mouse = { 0 };
@@ -69,11 +69,11 @@ void MouseMove(int dx, int dy)
 
     ::SendInput(1, &mouse, sizeof(INPUT));
 }
-*/
+
 
 int main(int argc, char** argv) {
 
-    //MouseMove(100, 0);
+    MouseMove(100, 0);
 
     face_cascade.load("haarcascade_frontalface_alt2.xml");
     eye_cascade.load("haarcascade_eye.xml");

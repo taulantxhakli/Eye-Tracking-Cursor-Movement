@@ -125,7 +125,7 @@ void detectEyes(cv::Mat& frame, cv::CascadeClassifier& faceCascade, cv::CascadeC
     cv::imshow("Eye", eye);
 }
 
-/**
+
 void changeMouse(cv::Mat& frame, cv::Point& location)
 {
     if (location.x > frame.cols) location.x = frame.cols;
@@ -134,7 +134,7 @@ void changeMouse(cv::Mat& frame, cv::Point& location)
     if (location.y < 0) location.y = 0;
     system(("xdotool mousemove " + std::to_string(location.x) + " " + std::to_string(location.y)).c_str());
 }
-*/
+
 
 int main(int argc, char** argv) {
 
@@ -169,6 +169,7 @@ int main(int argc, char** argv) {
 
         if (eye_bb.width == 0 && eye_bb.height == 0) {
             detectEyes(frame, faceCascade, eyeCascade);
+            changeMouse(frame, mousePoint);
         }
 
         cv::imshow(windowName, frame);
